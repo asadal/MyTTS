@@ -38,7 +38,7 @@ def app():
     if "sub_file" not in st.session_state:
         st.session_state.sub_file = None
     st.set_page_config(
-    page_title="Hani Audio Article",
+    page_title="Simple Text-to-Speech",
     page_icon="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png"
     )
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png", width=150)
