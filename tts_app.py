@@ -42,8 +42,8 @@ def app():
     page_icon="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png"
     )
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png", width=150)
-    st.title("Hani Audio Article")
-    st.subheader("기사 본문을 넣으면 음성으로 읽어줍니다.")
+    st.title("simple text-to-speech")
+    st.markdown("powered by [edge-tts](https://github.com/rany2/edge-tts)")
     article_text = st.text_area('본문 넣기', height=200, placeholder='읽고자 하는 기사 본문을 넣어주세요')
     filehead = st.text_input('파일명', placeholder='103348')
     tts_button = st.button("오디오 기사 만들기")
