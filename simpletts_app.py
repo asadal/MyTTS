@@ -1,38 +1,5 @@
-import asyncio
-import edge_tts
-import os
-import streamlit as st
-import tempfile as tf
-
-# 임시 폴더 생성
-def create_temp_dir():
-    # Create a temporary directory
-    set_temp_dir = tf.TemporaryDirectory()
-    temp_dir = set_temp_dir.name + "/"
-    # 디렉터리 접근 권한 설정
-    os.chmod(temp_dir, 0o700)
-    return temp_dir
-
-def make_filename(filehead="audio"):
-    temp_dir = create_temp_dir()
-    audio_filename = os.path.join(temp_dir, filehead + ".mp3")
-    return audio_filename
-
-# 스트리밍 오디오/자막 파일 생성
-async def amain(text, voice, rate, volume, audio_filename):
-    # Main function
-    communicate = edge_tts.Communicate(text, voice, rate=rate, volume=volume)
-    submaker = edge_tts.SubMaker()
-    os.makedirs(os.path.dirname(audio_filename), exist_ok=True)
-    with open(audio_filename, "wb") as file:
-        async for chunk in communicate.stream():
-            if chunk["type"] == "audio":
-                file.write(chunk["data"])
-            elif chunk["type"] == "WordBoundary":
-                submaker.create_sub((chunk["offset"], chunk["duration"]), chunk["text"])
-
 def app():
-    # 세션 상태 가져오기
+    # 세션 상태 초기화 체크
     if "audio_file" not in st.session_state or "filename" not in st.session_state:
         st.session_state.audio_file = None
         st.session_state.filename = None
@@ -41,8 +8,17 @@ def app():
         page_title="Simple Text-to-Speech",
         page_icon="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png"
     )
+    
+    col1, col2 = st.columns([8, 2])
+    with col1:
+        st.title("simple text-to-speech")
+    with col2:
+        if st.button("초기화"):
+            st.session_state.audio_file = None
+            st.session_state.filename = None
+            st.experimental_rerun()
+
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png", width=150)
-    st.title("simple text-to-speech")
     article_text = st.text_area('본문 넣기', height=200, placeholder='별이 빛나는 밤하늘을 보며 갈 수가 있고 또 가야만 하는 길의 지도를 읽을 수 있던 시대는 얼마나 행복했던가.')
     filehead = st.text_input('파일명', placeholder='lukacs')
     tts_button = st.button("mp3 만들기")
@@ -89,6 +65,3 @@ def app():
                 file_name=st.session_state.filename,
                 mime='audio/mp3'
             )
-
-if __name__ == "__main__":
-    app()
