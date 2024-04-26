@@ -43,7 +43,7 @@ def app():
     )
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png", width=150)
     st.title("simple text-to-speech")
-    st.markdown("powered by [edge-tts](https://github.com/rany2/edge-tts)")
+    # st.markdown("powered by [edge-tts](https://github.com/rany2/edge-tts)")
     article_text = st.text_area('본문 넣기', height=200, placeholder='별이 빛나는 밤하늘을 보며 갈 수가 있고 또 가야만 하는 길의 지도를 읽을 수 있던 시대는 얼마나 행복했던가.')
     filehead = st.text_input('파일명', placeholder='lukacs')
     tts_button = st.button("mp3 만들기")
