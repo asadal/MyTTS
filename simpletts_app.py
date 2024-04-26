@@ -47,7 +47,7 @@ def app():
     with col1:
         st.title("simple text-to-speech")
     with col2:
-        if st.button("초기화"):
+        if st.button("clear ↺"):
             st.session_state.audio_file = None
             st.session_state.filename = None
             st.session_state.article_text = ''  # 세션 상태에서 본문 텍스트도 초기화
