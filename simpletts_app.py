@@ -33,9 +33,10 @@ async def amain(text, voice, rate, volume, audio_filename):
 
 def app():
     # 세션 상태 초기화 체크
-    if "audio_file" not in st.session_state or "filename" not in st.session_state:
+    if "audio_file" not in st.session_state or "filename" not in st.session_state or "article_text" not in st.session_state:
         st.session_state.audio_file = None
         st.session_state.filename = None
+        st.session_state.article_text = ''  # 본문 텍스트 초기화
 
     st.set_page_config(
         page_title="Simple Text-to-Speech",
@@ -46,13 +47,14 @@ def app():
     with col1:
         st.title("simple text-to-speech")
     with col2:
-        if st.button("Clear ↺"):
+        if st.button("초기화"):
             st.session_state.audio_file = None
             st.session_state.filename = None
+            st.session_state.article_text = ''  # 세션 상태에서 본문 텍스트도 초기화
             st.experimental_rerun()
 
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png", width=150)
-    article_text = st.text_area('본문 넣기', height=200, placeholder='별이 빛나는 밤하늘을 보며 갈 수가 있고 또 가야만 하는 길의 지도를 읽을 수 있던 시대는 얼마나 행복했던가.')
+    article_text = st.text_area('본문 넣기', height=200, value=st.session_state.article_text, placeholder='별이 빛나는 밤하늘을 보며 갈 수가 있고 또 가야만 하는 길의 지도를 읽을 수 있던 시대는 얼마나 행복했던가.')
     filehead = st.text_input('파일명', placeholder='lukacs')
     tts_button = st.button("mp3 만들기")
     # 목소리 선택
@@ -85,6 +87,7 @@ def app():
                     # 오디오 파일을 세션 상태에 저장
                     st.session_state.audio_file = mp3_file
                     st.session_state.filename = (filehead or "audio") + '.mp3'
+                    st.session_state.article_text = article_text  # 세션 상태에 본문 텍스트 저장
                 except Exception as e:
                     st.error("오류가 발생했습니다.")
                     st.error(e)
@@ -98,6 +101,7 @@ def app():
                 file_name=st.session_state.filename,
                 mime='audio/mp3'
             )
+
 
 if __name__ == "__main__":
     app()
