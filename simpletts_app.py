@@ -98,3 +98,6 @@ def app():
                 file_name=st.session_state.filename,
                 mime='audio/mp3'
             )
+
+if __name__ == "__main__":
+    app()
