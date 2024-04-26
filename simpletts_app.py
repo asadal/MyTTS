@@ -46,7 +46,7 @@ def app():
     with col1:
         st.title("simple text-to-speech")
     with col2:
-        if st.button("초기화"):
+        if st.button("Clear ↺"):
             st.session_state.audio_file = None
             st.session_state.filename = None
             st.experimental_rerun()
